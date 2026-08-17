@@ -1,42 +1,60 @@
-#include<iostream>
+#include <iostream>
+#include <string>
 using namespace std;
 
-int main(){
-    string plate[500];
-    int n,i;
-    string t_plate;
-    cout<<"enter the size of array: ";
-    cin>>n;
-    int pos;
-    cout<<"Enter the position where guard left off:";
-    cin>>pos;
-    cout<<endl;
-
-    for(i=0;i<n;i++){
-        cin>>plate[i];
-    }
-    cout<<"enter the targate plate: ";
-    cin>>t_plate;
-
-if(pos==n){
-     for(i=0;i<n;i++){
-        if(plate[i]==t_plate){
-            cout<<"the number plate is found by guard\n";
-            cout<<"the reqd number plate "<<plate[i]<<"is found at index "<<i+1;
+int linearSearch(string plates[], int size, string target) {
+    for (int i = 0; i < size; i++) {
+        if (plates[i] == target) {
+            return i + 1;
         }
     }
-} else{
-    for(i=0;i<pos;i++){
-        if(plate[i]==t_plate){
-                cout<<"The number plate isn found by guard \n";
-        cout<<"the reqd number plate "<<plate[i]<<" is found at index "<<i+1;
-        }
-    }
-    for(i=pos;i<n;i++){
-        if(plate[i]==t_plate){
-                cout<<"the number plate is found by the helper \n"
-            cout<<"the reqd number plate "<<plate[i]<<" is found at index "<<i+1;
-        }
+    return -1;
+}
+
+int recursiveSearch(string plates[], int size, string target, int index = 0) {
+    if (index >= size) {
+        return -1;
     }
 
-}}
+    if (plates[index] == target) {
+        return index + 1;
+    }
+
+    return recursiveSearch(plates, size, target, index + 1);
+}
+
+int main() {
+    int n;
+    string plates[100], target;
+
+    cout << "Enter number of license plates: ";
+    cin >> n;
+
+    cout << "Enter license plates:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> plates[i];
+    }
+
+    cout << "Enter target license plate: ";
+    cin >> target;
+
+    int iterativePosition = linearSearch(plates, n, target);
+    int recursivePosition = recursiveSearch(plates, n, target);
+
+    cout << "\nIterative search: ";
+    if (iterativePosition != -1) {
+        cout << "Target found at position " << iterativePosition << endl;
+    } else {
+        cout << "Target not found" << endl;
+    }
+
+    cout << "Recursive search: ";
+    if (recursivePosition != -1) {
+        cout << "Target found at position " << recursivePosition << endl;
+    } else {
+        cout << "Target not found" << endl;
+    }
+
+    return 0;
+}
+
